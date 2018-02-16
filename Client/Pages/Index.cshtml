@@ -1,0 +1,35 @@
+﻿@page
+@model Client.Pages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<button id="api">Call API</button>
+
+<pre id="results"></pre>
+
+<hr />
+<h4>API User</h4>
+<pre>@Model.Claims</pre>
+
+<hr />
+<h4>WEB User</h4>
+<input id="id_token" type="hidden" value="@await ViewContext.HttpContext.GetTokenAsync("access_token")" />
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+    <dt>access token</dt>
+    <dd>@await ViewContext.HttpContext.GetTokenAsync("access_token")</dd>
+
+    <dt>refresh token</dt>
+    <dd>@await ViewContext.HttpContext.GetTokenAsync("refresh_token")</dd>
+</dl>
+
+@section Scripts {
+    <script src="~/bundle.js"></script>
+}
